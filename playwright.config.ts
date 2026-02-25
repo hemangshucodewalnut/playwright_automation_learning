@@ -21,5 +21,6 @@ export default defineConfig({
 
 	use: {
 		browserName: "chromium",
+		headless: false,
 	},
 });

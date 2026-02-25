@@ -1,4 +1,4 @@
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test("Browser Context Playwright test", async ({ browser }) => {
 	const context = await browser.newContext();
@@ -8,4 +8,5 @@ test("Browser Context Playwright test", async ({ browser }) => {
 
 test("Page Fixture Test", async ({ page }) => {
 	await page.goto("https://google.com");
+	await expect(page).toHaveTitle("Google");
 });
