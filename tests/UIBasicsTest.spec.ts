@@ -18,11 +18,8 @@ test("should show error message for invalid login", async ({ browser }) => {
 });
 
 test("should grab text content of first card after valid login", async ({
-	browser,
+	page,
 }) => {
-	const context = await browser.newContext();
-	const page = await context.newPage();
-
 	const userName = page.locator("#username");
 	const password = page.locator('[type="password"]');
 	const signin = page.locator("#signInBtn");
@@ -38,10 +35,7 @@ test("should grab text content of first card after valid login", async ({
 	console.log(firstCardText);
 });
 
-test("should grab all card titles after valid login", async ({ browser }) => {
-	const context = await browser.newContext();
-	const page = await context.newPage();
-
+test("should grab all card titles after valid login", async ({ page }) => {
 	const userName = page.locator("#username");
 	const password = page.locator('[type="password"]');
 	const signin = page.locator("#signInBtn");
@@ -56,4 +50,18 @@ test("should grab all card titles after valid login", async ({ browser }) => {
 	await expect(cardTitles.first()).toBeVisible();
 	const allTitles = await cardTitles.allTextContents();
 	console.log(allTitles);
+});
+
+test.only(" should select dropdown, checkboxs and radio butons", async ({
+	page,
+}) => {
+	const dropdown = page.locator("select.form-control");
+
+	await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+	await dropdown.selectOption("consult");
+	await page.locator(".radiotextsty").last().click();
+	await page.locator("#okayBtn").click();
+	await expect(page.locator(".radiotextsty").last()).toBeChecked();
+	await page.locator("#terms").click();
+	await expect(page.locator("#terms")).toBeChecked();
 });
