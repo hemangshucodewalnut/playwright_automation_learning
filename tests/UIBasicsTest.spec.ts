@@ -52,7 +52,7 @@ test("should grab all card titles after valid login", async ({ page }) => {
 	console.log(allTitles);
 });
 
-test(" should select dropdown, checkboxes and radio buttons", async ({
+test("should select dropdown, checkboxes and radio buttons", async ({
 	page,
 }) => {
 	const dropdown = page.locator("select.form-control");
@@ -67,7 +67,7 @@ test(" should select dropdown, checkboxes and radio buttons", async ({
 	await expect(documentLink).toHaveAttribute("class", "blinkingText");
 });
 
-test.only("handle child windows", async ({ browser }) => {
+test("should handle child windows", async ({ browser }) => {
 	const context = await browser.newContext();
 	const page = await context.newPage();
 	await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
