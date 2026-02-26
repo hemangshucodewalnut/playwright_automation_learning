@@ -56,7 +56,7 @@ test.only(" should select dropdown, checkboxs and radio butons", async ({
 	page,
 }) => {
 	const dropdown = page.locator("select.form-control");
-
+	const documentLink = page.locator("[href*='documents-request']");
 	await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
 	await dropdown.selectOption("consult");
 	await page.locator(".radiotextsty").last().click();
@@ -64,4 +64,5 @@ test.only(" should select dropdown, checkboxs and radio butons", async ({
 	await expect(page.locator(".radiotextsty").last()).toBeChecked();
 	await page.locator("#terms").click();
 	await expect(page.locator("#terms")).toBeChecked();
+	await expect(documentLink).toHaveAttribute("class", "blinkingText");
 });
