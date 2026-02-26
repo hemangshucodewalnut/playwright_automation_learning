@@ -52,7 +52,7 @@ test("should grab all card titles after valid login", async ({ page }) => {
 	console.log(allTitles);
 });
 
-test.only(" should select dropdown, checkboxs and radio butons", async ({
+test(" should select dropdown, checkboxes and radio buttons", async ({
 	page,
 }) => {
 	const dropdown = page.locator("select.form-control");
@@ -65,4 +65,23 @@ test.only(" should select dropdown, checkboxs and radio butons", async ({
 	await page.locator("#terms").click();
 	await expect(page.locator("#terms")).toBeChecked();
 	await expect(documentLink).toHaveAttribute("class", "blinkingText");
+});
+
+test.only("handle child windows", async ({ browser }) => {
+	const context = await browser.newContext();
+	const page = await context.newPage();
+	await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+	const documentLink = page.locator("[href*='documents-request']");
+
+	const [newPage] = await Promise.all([
+		context.waitForEvent("page"),
+		documentLink.click(),
+	]);
+
+	const text = await newPage.locator(".red").textContent();
+	if (!text) throw new Error("Text not found");
+	const arrayText = text.split("@");
+	const domain = arrayText[1].split(" ")[0];
+	await page.locator("#username").fill(domain);
+	console.log(await page.locator("#username").inputValue());
 });
