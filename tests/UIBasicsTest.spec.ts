@@ -37,3 +37,23 @@ test("should grab text content of first card after valid login", async ({
 	const firstCardText = await cardTitles.nth(0).textContent();
 	console.log(firstCardText);
 });
+
+test("should grab all card titles after valid login", async ({ browser }) => {
+	const context = await browser.newContext();
+	const page = await context.newPage();
+
+	const userName = page.locator("#username");
+	const password = page.locator('[type="password"]');
+	const signin = page.locator("#signInBtn");
+	const cardTitles = page.locator(".card-body a");
+
+	await page.goto("https://rahulshettyacademy.com/loginpagePractise/");
+
+	await userName.fill("rahulshettyacademy");
+	await password.fill("Learning@830$3mK2");
+	await signin.click();
+
+	await expect(cardTitles.first()).toBeVisible();
+	const allTitles = await cardTitles.allTextContents();
+	console.log(allTitles);
+});
