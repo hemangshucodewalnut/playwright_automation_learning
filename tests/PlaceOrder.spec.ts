@@ -16,4 +16,11 @@ test("should place an order", async ({ page }) => {
 			break;
 		}
 	}
+
+	await page.locator('[routerlink*="cart"]').click();
+	await page.locator("div li").first().waitFor();
+	const isProductVisibleInCart = await page
+		.locator(`h3:has-text("${productName}")`)
+		.isVisible();
+	expect(isProductVisibleInCart).toBeTruthy();
 });
