@@ -8,7 +8,6 @@ test("should place an order", async ({ page }) => {
 	await page.locator("#userEmail").fill(email);
 	await page.locator("#userPassword").fill("1234@Asdf");
 	await page.locator('[value="Login"]').click();
-	await page.waitForLoadState("networkidle");
 	await page.locator(".card-body b").first().waitFor();
 	const productCount = await products.count();
 	for (let i = 0; i < productCount; ++i) {
@@ -45,7 +44,22 @@ test("should place an order", async ({ page }) => {
 	await expect(page.locator(".hero-primary")).toHaveText(
 		" Thankyou for the order. ",
 	);
-	const orderId = await page
-		.locator(".em-spacer-1 .ng-star-inserted")
-		.textContent();
+	const orderId: string =
+		(await page.locator(".em-spacer-1 .ng-star-inserted").textContent()) || "";
+
+	await page.locator("button[routerlink*='myorders']").click();
+	await page.locator("tbody").waitFor();
+	const orderDetailsRows = page.locator("tbody tr");
+
+	for (let i = 0; i < (await orderDetailsRows.count()); ++i) {
+		const productIdsInOrderDetailsTable: string =
+			(await orderDetailsRows.nth(i).locator("th").textContent()) || "";
+		if (orderId.includes(productIdsInOrderDetailsTable)) {
+			await orderDetailsRows.nth(i).locator("button").first().click();
+			break;
+		}
+	}
+	const orderIdDetails: string =
+		(await page.locator(".col-text").textContent()) || "";
+	expect(orderId.includes(orderIdDetails)).toBeTruthy();
 });
