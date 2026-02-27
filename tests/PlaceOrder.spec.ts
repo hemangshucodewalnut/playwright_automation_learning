@@ -23,4 +23,21 @@ test("should place an order", async ({ page }) => {
 		.locator(`h3:has-text("${productName}")`)
 		.isVisible();
 	expect(isProductVisibleInCart).toBeTruthy();
+
+	await page.locator("text=Checkout").click();
+	await page
+		.locator("[placeholder*='Country']")
+		.pressSequentially("ind", { delay: 150 });
+	const dropdownOptions = page.locator(".ta-results");
+	await dropdownOptions.waitFor();
+	const dropdownOptionsCount = await dropdownOptions.locator("button").count();
+
+	for (let i = 0; i < dropdownOptionsCount; ++i) {
+		const text = await dropdownOptions.locator("button").nth(i).textContent();
+		if (text === " India") {
+			await dropdownOptions.locator("button").nth(i).click();
+			break;
+		}
+	}
+	await page.pause();
 });
