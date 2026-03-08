@@ -23,6 +23,7 @@
 		"@biomejs/biome": "2.4.4",
 		"@playwright/test": "^1.58.2",
 		"@types/node": "^25.3.0",
+		"exceljs": "^4.4.0",
 		"husky": "^9.1.7",
 		"lint-staged": "^16.2.7"
 	}
