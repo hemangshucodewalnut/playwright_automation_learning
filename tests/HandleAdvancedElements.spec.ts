@@ -1,5 +1,7 @@
 import { test, expect } from "@playwright/test";
 
+test.describe.configure({ mode: "parallel" });
+
 test("Popup validations", async ({ page }) => {
 	await page.goto("https://rahulshettyacademy.com/AutomationPractice/");
 	await expect(page.locator("#displayed-text")).toBeVisible();
